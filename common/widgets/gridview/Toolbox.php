@@ -22,7 +22,7 @@ class Toolbox extends Widget {
         if (!isset($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
-        $this->template = "toolbox";
+        $this->template = "Toolbox";
     }
 
     public function getButtons() {
