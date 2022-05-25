@@ -29,11 +29,11 @@ $cleanSelId = "supplier-clear-selection";
         'id' => $alertId,
         'closeButton' => false,
         'options' => [
-            'class' => 'alert alert-secondary',
+            'class' => 'alert alert-secondary text-center',
         ],
     ]);
     echo Html::beginTag("div", []);
-    echo Html::tag("span", Yii::t("app", "<b>All 20</b> conversations on this page have been selected. "), []);
+    echo Html::tag("span", Yii::t("app", "<b>All {s0}</b> conversations on this page have been selected. ", ['s0' => Yii::$app->params['config']['pagination']['pageSize']]));
     echo Html::a(Yii::t("app", "Select all conversations that match this search"), "javascript:void(0)", ['id' => $allSelId]);
     echo Html::endTag("div", []);
     echo Html::beginTag("div", []);

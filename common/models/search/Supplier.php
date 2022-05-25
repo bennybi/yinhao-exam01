@@ -2,6 +2,7 @@
 
 namespace common\models\search;
 
+use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\entity\Supplier as SupplierModel;
@@ -44,7 +45,7 @@ class Supplier extends SupplierModel {
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => Yii::$app->params['config']['pagination']['pageSize'] ?? 20,
             ],
         ]);
 
