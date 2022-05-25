@@ -18,7 +18,7 @@ class SysController extends BaseController {
                 ['name' => 'beUsers', 'args' => []],
             ]],
         'init-suppliers' => ['class' => InitCommander::class, 'cmds' => [
-                ['name' => 'suppliers', 'args' => []],
+                ['name' => 'suppliers', 'args' => ['num' => 500]],
             ]],
     ];
 

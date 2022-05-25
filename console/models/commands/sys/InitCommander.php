@@ -7,6 +7,8 @@ use console\models\commands\BaseCommander;
 use yii\base\Exception;
 use common\interfaces\Command;
 use common\models\User;
+use common\models\entity\Supplier;
+use common\helpers\CodeGenerator;
 
 class InitCommander extends BaseCommander implements Command {
 
@@ -46,10 +48,35 @@ class InitCommander extends BaseCommander implements Command {
      * 
      * @param type $args
      */
-    public function suppliers($args = []) {
-        $queues = IotQueueList::getData();
-        foreach ($queues as $queue) {
-            Yii::$app->rabbitmq->declareQueue($queue['code']);
+    public function suppliers($args = ['num' => 5]) {
+        $tables = [
+            '{{%supplier}}',
+        ];
+        foreach ($tables as $table) {
+            Yii::$app->db->createCommand()->truncateTable($table)->execute();
+        }
+
+        for ($i = 0; $i < $args['num']; $i++) {
+            $model = new Supplier();
+            $model->loadDefaultValues();
+
+            $code = CodeGenerator::getRandomCode(3);
+            while (true) {
+                if ($model->find()->where(['code' => $code])->exists()) {
+                    $code = CodeGenerator::getRandomCode(3);
+                } else {
+                    break;
+                }
+            }
+
+            $model->setAttributes([
+                "name" => "Supplier {$i}",
+                "code" => $code,
+            ]);
+
+            if (!$model->save()) {
+                throw new Exception(implode(',', $model->firstErrors));
+            }
         }
     }
 
