@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use frontend\models\forms\ExportForm;
 
 /**
  * DefaultController implements the CRUD actions for Supplier model.
@@ -43,18 +44,37 @@ class DefaultController extends Controller {
     }
 
     public function actionExport() {
-        $ids = Yii::$app->request->getQueryParam("ids");
-        $content = "";
-        if ($ids) {
-            $type = "csv";
-            $name = "suppliers_" . date("YmdHi");
-            $mime = "text/plain";
-            $encoding = 'utf-8';
-            $this->setHttpHeaders($type, $name, $mime, $encoding);
-            $list = Supplier::find()->where(['id' => $ids])->asArray()->all();
-            $content = $this->array2csv($list);
+        $model = new ExportForm();
+        if (Yii::$app->request->isAjax) {
+            $model->ids = implode(',', Yii::$app->request->getQueryParam("ids") ?? []);
+            return $this->renderAjax('export', ['model' => $model,]);
+        } elseif ($model->load(Yii::$app->request->post())) {
+            $ids = explode(",", $model->ids);
+            $content = "";
+            if ($ids) {
+                $type = "csv";
+                $name = "suppliers_" . date("YmdHi");
+                $mime = "text/plain";
+                $encoding = 'utf-8';
+                $this->setHttpHeaders($type, $name, $mime, $encoding);
+                $list = Supplier::find()->where(['id' => $ids])->select($model->columns)->asArray()->all();
+                $content = $this->array2csv($list);
+            }
+            return $content;
         }
-        return $content;
+
+//        $ids = Yii::$app->request->getQueryParam("ids");
+//        $content = "";
+//        if ($ids) {
+//            $type = "csv";
+//            $name = "suppliers_" . date("YmdHi");
+//            $mime = "text/plain";
+//            $encoding = 'utf-8';
+//            $this->setHttpHeaders($type, $name, $mime, $encoding);
+//            $list = Supplier::find()->where(['id' => $ids])->asArray()->all();
+//            $content = $this->array2csv($list);
+//        }
+//        return $content;
     }
 
     public function array2csv($data, $delimiter = ',', $enclosure = '"', $escape_char = "\\") {
@@ -91,59 +111,6 @@ class DefaultController extends Controller {
         header("Content-Disposition: attachment; filename={$name}.{$type}");
         header("Cache-Control: max-age=0");
     }
-
-//    /**
-//     * Creates a new Supplier model.
-//     * If creation is successful, the browser will be redirected to the 'view' page.
-//     * @return string|\yii\web\Response
-//     */
-//    public function actionCreate() {
-//        $model = new Supplier();
-//
-//        if ($this->request->isPost) {
-//            if ($model->load($this->request->post()) && $model->save()) {
-//                return $this->redirect(['view', 'id' => $model->id]);
-//            }
-//        } else {
-//            $model->loadDefaultValues();
-//        }
-//
-//        return $this->render('create', [
-//                    'model' => $model,
-//        ]);
-//    }
-//
-//    /**
-//     * Updates an existing Supplier model.
-//     * If update is successful, the browser will be redirected to the 'view' page.
-//     * @param int $id ID
-//     * @return string|\yii\web\Response
-//     * @throws NotFoundHttpException if the model cannot be found
-//     */
-//    public function actionUpdate($id) {
-//        $model = $this->findModel($id);
-//
-//        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-//        }
-//
-//        return $this->render('update', [
-//                    'model' => $model,
-//        ]);
-//    }
-//
-//    /**
-//     * Deletes an existing Supplier model.
-//     * If deletion is successful, the browser will be redirected to the 'index' page.
-//     * @param int $id ID
-//     * @return \yii\web\Response
-//     * @throws NotFoundHttpException if the model cannot be found
-//     */
-//    public function actionDelete($id) {
-//        $this->findModel($id)->delete();
-//
-//        return $this->redirect(['index']);
-//    }
 
     /**
      * Finds the Supplier model based on its primary key value.
