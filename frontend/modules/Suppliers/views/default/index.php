@@ -86,17 +86,6 @@ $cleanSelId = "supplier-clear-selection";
 
     <?php Pjax::end(); ?>
     <?php
-//    Modal::begin([
-//        'id' => 'supplier-index-modal',
-//        'size' => Modal::SIZE_DEFAULT,
-//        'title' => Yii::t('app', 'Tips'),
-//        'closeButton' => [
-//            'id' => 'close-button',
-//            'class' => 'close',
-//            'data-dismiss' => 'modal',
-//        ],
-//    ]);
-//    Modal::end();
     Modal::begin([
         'title' => Yii::t('app', 'Which column(s) should be included?'),
         'id' => 'supplier-index-modal',
@@ -117,12 +106,6 @@ $cleanSelId = "supplier-clear-selection";
                     else{
                         jQuery('#supplier-index-modal').modal('show').find('.modal-body').html('" . Yii::t('app', 'Loading...') . "').load('" . Url::toRoute('export') . "'+ '?' + jQuery.param({'ids':ids}));
                     }
-//                    if(ids.length==0){
-//                        jQuery('#supplier-index-modal').modal('show').find('.modal-body').html('" . Yii::t('app', 'Hi, Please select at lease one item!') . "');
-//                    }
-//                    else{
-//                        window.location.href = data.url + '?' + jQuery.param({'ids':ids});
-//                    }
                 });";
     $js .= "\n";
 

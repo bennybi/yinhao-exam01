@@ -62,19 +62,6 @@ class DefaultController extends Controller {
             }
             return $content;
         }
-
-//        $ids = Yii::$app->request->getQueryParam("ids");
-//        $content = "";
-//        if ($ids) {
-//            $type = "csv";
-//            $name = "suppliers_" . date("YmdHi");
-//            $mime = "text/plain";
-//            $encoding = 'utf-8';
-//            $this->setHttpHeaders($type, $name, $mime, $encoding);
-//            $list = Supplier::find()->where(['id' => $ids])->asArray()->all();
-//            $content = $this->array2csv($list);
-//        }
-//        return $content;
     }
 
     public function array2csv($data, $delimiter = ',', $enclosure = '"', $escape_char = "\\") {
