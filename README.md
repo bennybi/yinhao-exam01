@@ -6,8 +6,12 @@
     <br>
 </p>
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+项目说明:
+- project access url: https://fe-yh-exam01.rx-print.com/suppliers
+- github: https://github.com/bennybi/yinhao-exam01
+- 用yii2 advance模板建立，前端入口指向 src/frontend/web
+- 根据要求，只用到yii或bootstrap相关组件
+- 有命令行程序供初始化数据支持，php yii sys/init-supplliers 
 
 The template includes three tiers: front end, back end, and console, each of which
 is a separate Yii application.
