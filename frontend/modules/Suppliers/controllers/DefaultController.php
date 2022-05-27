@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 use frontend\models\forms\ExportForm;
+use yii\helpers\ArrayHelper;
 
 /**
  * DefaultController implements the CRUD actions for Supplier model.
@@ -57,7 +58,7 @@ class DefaultController extends Controller {
                 $mime = "text/plain";
                 $encoding = 'utf-8';
                 $this->setHttpHeaders($type, $name, $mime, $encoding);
-                $list = Supplier::find()->where(['id' => $ids])->select($model->columns)->asArray()->all();
+                $list = Supplier::find()->where(['id' => $ids])->select(ArrayHelper::merge(['id'], $model->columns))->asArray()->all();
                 $content = $this->array2csv($list);
             }
             return $content;

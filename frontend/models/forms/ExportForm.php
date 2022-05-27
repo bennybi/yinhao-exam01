@@ -11,7 +11,7 @@ use yii\base\Model;
 class ExportForm extends Model {
 
     public $ids;
-    public $columns = ['id'];
+    public $columns = [];
 
     /**
      * {@inheritdoc}
