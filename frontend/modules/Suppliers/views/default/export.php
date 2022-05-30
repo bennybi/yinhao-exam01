@@ -21,14 +21,7 @@ $form = ActiveForm::begin([
 <div class="panel-body">
     <?php
     echo $form->field($model, 'ids')->hiddenInput()->label(false);
-    echo $form->field($model, 'columns')->checkboxList([
-//        'id' => 'id',
-        'code' => 'code',
-        'name' => 'name',
-        't_status' => 't_status',
-            ],
-            ['separator' => '<br>'],
-    )->label(false);
+    echo $form->field($model, 'columns')->checkboxList($model->loadDefaultColumns(['id']), ['separator' => '<br>'],)->label(false);
 
     echo Html::beginTag('div', ['class' => 'box-footer clearfix']);
     echo Html::a('<i class="fa fa-close"></i> ' . Yii::t('app', 'Cancel'), ['index'], ['data-dismiss' => 'modal', 'class' => 'btn btn-default float-right', 'title' => Yii::t('app', 'Cancel'),]);

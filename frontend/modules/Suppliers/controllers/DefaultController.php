@@ -45,7 +45,7 @@ class DefaultController extends Controller {
     }
 
     public function actionExport() {
-        $model = new ExportForm();
+        $model = new ExportForm(['entityModelClass' => Supplier::class]);
         if (Yii::$app->request->isAjax) {
             $model->ids = implode(',', Yii::$app->request->getQueryParam("ids") ?? []);
             return $this->renderAjax('export', ['model' => $model,]);

@@ -11,7 +11,25 @@ use yii\base\Model;
 class ExportForm extends Model {
 
     public $ids;
+    public $entityModelClass;
     public $columns = [];
+    protected $_data = [];
+
+    public function getEntityModel() {
+        return new $this->entityModelClass;
+    }
+
+    public function loadDefaultColumns($exceptCols = []) {
+        if (!isset($this->_data['defaultColumns'])) {
+            $cols = array_keys($this->entityModelClass::getTableSchema()->columns);
+            if (!empty($exceptCols)) {
+                $cols = array_diff($cols, $exceptCols);
+            }
+            $this->_data['defaultColumns'] = array_combine($cols, $cols);
+            $this->columns = $cols;
+        }
+        return $this->_data['defaultColumns'];
+    }
 
     /**
      * {@inheritdoc}
