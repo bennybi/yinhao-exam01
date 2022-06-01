@@ -50,6 +50,7 @@ class DefaultController extends Controller {
             $model->ids = implode(',', Yii::$app->request->getQueryParam("ids") ?? []);
             return $this->renderAjax('export', ['model' => $model,]);
         } elseif ($model->load(Yii::$app->request->post())) {
+            Yii::info($model->ids);
             $content = "";
             $type = "csv";
             $name = "suppliers_" . date("YmdHi");

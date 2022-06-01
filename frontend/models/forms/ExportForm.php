@@ -38,6 +38,7 @@ class ExportForm extends Model {
         return [
             // name, email, subject and body are required
             [['columns',], 'required'],
+            [['ids',], 'string'],
         ];
     }
 
