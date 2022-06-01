@@ -10,7 +10,7 @@ use yii\base\Model;
  */
 class ExportForm extends Model {
 
-    public $ids;
+    public $ids = [];
     public $entityModelClass;
     public $columns = [];
     protected $_data = [];
@@ -37,7 +37,7 @@ class ExportForm extends Model {
     public function rules() {
         return [
             // name, email, subject and body are required
-            [['ids', 'columns',], 'required'],
+            [['columns',], 'required'],
         ];
     }
 

@@ -50,15 +50,19 @@ class DefaultController extends Controller {
             $model->ids = implode(',', Yii::$app->request->getQueryParam("ids") ?? []);
             return $this->renderAjax('export', ['model' => $model,]);
         } elseif ($model->load(Yii::$app->request->post())) {
-            $ids = explode(",", $model->ids);
             $content = "";
-            if ($ids) {
-                $type = "csv";
-                $name = "suppliers_" . date("YmdHi");
-                $mime = "text/plain";
-                $encoding = 'utf-8';
-                $this->setHttpHeaders($type, $name, $mime, $encoding);
+            $type = "csv";
+            $name = "suppliers_" . date("YmdHi");
+            $mime = "text/plain";
+            $encoding = 'utf-8';
+            $this->setHttpHeaders($type, $name, $mime, $encoding);
+
+            if ($model->ids) {
+                $ids = explode(",", $model->ids);
                 $list = Supplier::find()->where(['id' => $ids])->select(ArrayHelper::merge(['id'], $model->columns))->asArray()->all();
+                $content = $this->array2csv($list);
+            } else {
+                $list = Supplier::find()->where([])->select(ArrayHelper::merge(['id'], $model->columns))->asArray()->all();
                 $content = $this->array2csv($list);
             }
             return $content;

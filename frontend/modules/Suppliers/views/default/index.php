@@ -100,12 +100,13 @@ $cleanSelId = "supplier-clear-selection";
     $js .= "jQuery(document).on('" . OperationEvent::DATA_EXPORT . "', '.supplier-index', function(e, data) {
                     e.preventDefault();
                     var ids = jQuery('#{$gridId}').yiiGridView('getSelectedRows');
-                    if(ids.length==0){
-                        jQuery('#supplier-index-modal').modal('show').find('.modal-body').html('" . Yii::t('app', 'Hi, Please select at lease one item!') . "');
-                    }
-                    else{
-                        jQuery('#supplier-index-modal').modal('show').find('.modal-body').html('" . Yii::t('app', 'Loading...') . "').load('" . Url::toRoute('export') . "'+ '?' + jQuery.param({'ids':ids}));
-                    }
+//                    if(ids.length==0){
+//                        jQuery('#supplier-index-modal').modal('show').find('.modal-body').html('" . Yii::t('app', 'Hi, Please select at lease one item!') . "');
+//                    }
+//                    else{
+//                        jQuery('#supplier-index-modal').modal('show').find('.modal-body').html('" . Yii::t('app', 'Loading...') . "').load('" . Url::toRoute('export') . "'+ '?' + jQuery.param({'ids':ids}));
+//                    }
+                    jQuery('#supplier-index-modal').modal('show').find('.modal-body').html('" . Yii::t('app', 'Loading...') . "').load('" . Url::toRoute('export') . "'+ '?' + jQuery.param({'ids':ids}));
                 });";
     $js .= "\n";
 
